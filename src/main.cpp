@@ -11,6 +11,7 @@
 #include"tools.hpp"
 #include <cstring>
 #include <string_view>
+#include <unordered_map>
 
 
 // std::string reversedComplement(std::string DNAsequence);
@@ -21,44 +22,25 @@
 
 const size_t MAX_SIZE = 5e4+5;
 
-void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence,const size_t buf_size) // 注意这里要用'&'取引用，这样不用拷贝，大大减少耗时
+void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence, const size_t buf_size) 
 {
-	using namespace std;
-	
-	// string l = "";
-	int i;
-	int q = strlen(DNAsequence.data());
-	reverse(DNAsequence.begin(), DNAsequence.begin()+q); //将字符串反过来 
-	for (i = 0; i < q; i++)
-	{
-        char &l = DNAsequence[i];
-		if (DNAsequence[i] == 'A'){
-			// l = l + 'T';
-            l = 'T';
-        }else if (DNAsequence[i] == 'a'){
-			// l = l + 'T';
-            l = 'T';
-        }else if (DNAsequence[i] == 'c'){
-			// l = l + 'G';
-            l = 'G';
-        }else if (DNAsequence[i] == 'C'){
-			// l = l + 'G';
-            l = 'G';
-        }else if(DNAsequence[i] == 'g'){
-			// l = l + 'C';
-            l = 'C';
-        }else if (DNAsequence[i] == 'G'){
-			// l = l + 'C';
-            l = 'C';
-        }else if (DNAsequence[i] == 't'){
-			// l = l + 'A';
-            l = 'A';
-        }else if (DNAsequence[i] == 'T'){
-			// l = l + 'A';
-            l = 'A';
+    static const std::unordered_map<char, char> complement = {
+        {'A', 'T'}, {'a', 'T'},
+        {'T', 'A'}, {'t', 'A'},
+        {'C', 'G'}, {'c', 'G'},
+        {'G', 'C'}, {'g', 'C'}
+    };
+    
+    std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); 
+    
+    for (size_t i = 0; i < buf_size; ++i) {
+        auto it = complement.find(DNAsequence[i]);
+        if (it != complement.end()) {
+            DNAsequence[i] = it->second;
         }
-	}
+    }
 }
+
 
 class Spent{
     const decltype(std::chrono::system_clock::now()) start;
