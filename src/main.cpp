@@ -83,7 +83,8 @@ int main()
             if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{
                 const auto old_buf_pos = now_buf_pos;
                 now_buf_pos = new_buf_pos;
-                return (unsigned long long)(old_buf_pos-new_buf_pos);
+                // auto ret = new_buf_pos - old_buf_pos;
+                return (unsigned long long)(new_buf_pos - old_buf_pos);
             }else{
                 return strlen(buf.data());
             }
