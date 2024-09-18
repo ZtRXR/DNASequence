@@ -44,6 +44,7 @@ void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence, const size_t buf
 
 
 class Spent{
+private:
     const decltype(std::chrono::system_clock::now()) start;
     const std::string_view name;
 public:
