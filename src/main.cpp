@@ -66,7 +66,7 @@ int main()
         Spent all_spent("All spent");
         
         std::array<char,MAX_SIZE> buf;
-        int lines = 0;
+        unsigned long long lines = 0;
 
         filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
