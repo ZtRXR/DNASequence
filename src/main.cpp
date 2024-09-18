@@ -25,7 +25,7 @@
 //最大DNA序列长度
 const size_t MAX_SIZE = 5e4+5;
 
-void reverseComplement(std::string &DNAsequence, const size_t buf_size) //注意这里使用引用DNA sequence，避免拷贝开销
+void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里使用引用DNA sequence，避免拷贝开销
 {
     static const std::unordered_map<char, char> complement = { //这里使用查表的方式大大提高CPU速度，因为if分支CPU不容易命中缓存，需要使用查表加速
         {'A', 'T'}, {'a', 'T'},
@@ -34,7 +34,7 @@ void reverseComplement(std::string &DNAsequence, const size_t buf_size) //注意
         {'G', 'C'}, {'g', 'C'}
     };
     
-    std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列
+    // std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列 //太耗时，一遍过
     
     for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { 
         auto it = complement.find(DNAsequence[i]);//查表并替换
@@ -68,9 +68,9 @@ int main()
 
         Spent all_spent("All spent"); //自动计时器，给主函数计时
         
-        // std::array<char,MAX_SIZE> buf;
-        std::string buf;
-        buf.reserve(MAX_SIZE);//注意提前扩容
+        std::array<char,MAX_SIZE> buf;
+        // std::string buf;
+        // buf.reserve(MAX_SIZE);//注意提前扩容
 
         unsigned long long lines = 0;
 
@@ -96,14 +96,17 @@ int main()
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
-            // const auto buf_len = get_buf_len();
+            const auto buf_len = strlen(buf.data());
             const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
             if (m == 1){
                 // output_file_stream << reverseComplement(buf) << endl;
-                reverseComplement(buf,buf.size());
+                reverseComplement(buf,buf_len);
             }
-            buf+=suffix;
-            output_file_stream.write(buf.data(), buf.size()); // 写入文件
+            // buf+=suffix;
+            for(std::remove_const_t<decltype(suffix.size())> i=0;i<suffix.size();i++){
+                buf[buf_len+i] = suffix[i];
+            }
+            output_file_stream.write(buf.data(), buf_len+suffix.size()); // 写入文件
             lines++;
         }
         
