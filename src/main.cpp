@@ -5,7 +5,6 @@
 #include <exception>
 #include <filesystem>
 #include<fstream>
-#include <ratio>
 #include <sstream>
 #include <stdexcept>
 #include<algorithm>
@@ -89,8 +88,6 @@ int main()
         using namespace std;
 
         Spent all_spent("All spent");
-
-        const auto start = chrono::system_clock::now();
         
         std::array<char,MAX_SIZE> buf;
         int lines = 0;
@@ -105,7 +102,7 @@ int main()
         // string l = "";
         zt::print("Undergoing transformation\n");
 
-        
+
         
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
