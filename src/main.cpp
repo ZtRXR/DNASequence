@@ -10,6 +10,7 @@
 #include<algorithm>
 #include"tools.hpp" // 自己写的库，在src/tools/tools.hpp当中，注意要使用C++23标准编译
 #include <cstring>
+#include <stdio.h>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -24,7 +25,7 @@
 //最大DNA序列长度
 const size_t MAX_SIZE = 5e4+5;
 
-void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence, const size_t buf_size) //注意这里使用引用DNA sequence，避免拷贝开销
+void reverseComplement(std::string &DNAsequence, const size_t buf_size) //注意这里使用引用DNA sequence，避免拷贝开销
 {
     static const std::unordered_map<char, char> complement = { //这里使用查表的方式大大提高CPU速度，因为if分支CPU不容易命中缓存，需要使用查表加速
         {'A', 'T'}, {'a', 'T'},
@@ -63,14 +64,17 @@ int main()
 {
 	try{
         std::ios_base::sync_with_stdio(false); //加了没效果 
-        using namespace std;
+        // using namespace std; // 别加，刚被坑了
 
         Spent all_spent("All spent"); //自动计时器，给主函数计时
         
-        std::array<char,MAX_SIZE> buf;
+        // std::array<char,MAX_SIZE> buf;
+        std::string buf;
+        buf.reserve(MAX_SIZE);//注意提前扩容
+
         unsigned long long lines = 0;
 
-        filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
+        std::filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
         // ifstream input_file_stream(input_path);
         // ofstream output_file_stream(output_path);
@@ -78,30 +82,28 @@ int main()
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
         // string l = "";
-        auto now_buf_pos = input_file_stream.tellg();
-        const auto get_buf_len = [&now_buf_pos,&input_file_stream,&buf](){
-            if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{
-                const auto old_buf_pos = now_buf_pos;
-                now_buf_pos = new_buf_pos;
-                // auto ret = new_buf_pos - old_buf_pos;
-                return (unsigned long long)(new_buf_pos - old_buf_pos);
-            }else{
-                return strlen(buf.data());
-            }
-        };
+        // auto now_buf_pos = input_file_stream.tellg();
+        // const auto get_buf_len = [&now_buf_pos,&input_file_stream,&buf](){
+        //     if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{
+        //         const auto old_buf_pos = now_buf_pos;
+        //         now_buf_pos = new_buf_pos;
+        //         // auto ret = new_buf_pos - old_buf_pos;
+        //         return (unsigned long long)(new_buf_pos - old_buf_pos);
+        //     }else{
+        //         return strlen(buf.data());
+        //     }
+        // };
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
-            const auto buf_len = get_buf_len();
+            // const auto buf_len = get_buf_len();
             const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
             if (m == 1){
                 // output_file_stream << reverseComplement(buf) << endl;
-                reverseComplement(buf,buf_len);
+                reverseComplement(buf,buf.size());
             }
-            for(int i=0;i<suffix.size();i++){
-                buf[buf_len+i]=suffix[i]; // 将末尾增加字符追加到结尾。注意不能过长超过MAX_SIZE
-            }
-            output_file_stream.write(buf.data(), buf_len+suffix.size()); // 写入文件
+            buf+=suffix;
+            output_file_stream.write(buf.data(), buf.size()); // 写入文件
             lines++;
         }
         
