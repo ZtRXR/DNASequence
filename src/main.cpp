@@ -8,7 +8,7 @@
 #include <sstream>
 #include <stdexcept>
 #include<algorithm>
-#include"tools.hpp" // 自己写的库，在src/tools/tools.hpp当中
+#include"tools.hpp" // 自己写的库，在src/tools/tools.hpp当中，注意要使用C++23标准编译
 #include <cstring>
 #include <string_view>
 #include <type_traits>
