@@ -12,6 +12,7 @@
 #include"tools.hpp"
 #include <cstring>
 #include <string> 
+#include <string_view>
 
 
 // std::string reversedComplement(std::string DNAsequence);
@@ -33,22 +34,38 @@ void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence,const size_t buf_
 	for (i = 0; i < q; i++)
 	{
         char &l = DNAsequence[i];
-		if (DNAsequence[i] == 'A')
-			l = l + 'T';
-		if (DNAsequence[i] == 'a')
-			l = l + 'T';
-		if (DNAsequence[i] == 'c')
-			l = l + 'G';
-		if (DNAsequence[i] == 'C')
-			l = l + 'G';
-		if (DNAsequence[i] == 'g')
-			l = l + 'C';
-		if (DNAsequence[i] == 'G')
-			l = l + 'C';
-		if (DNAsequence[i] == 't')
-			l = l + 'A';
-		if (DNAsequence[i] == 'T')
-			l = l + 'A';
+		if (DNAsequence[i] == 'A'){
+			// l = l + 'T';
+            l = 'T';
+        }
+		if (DNAsequence[i] == 'a'){
+			// l = l + 'T';
+            l = 'T';
+        }
+		if (DNAsequence[i] == 'c'){
+			// l = l + 'G';
+            l = 'G';
+        }
+		if (DNAsequence[i] == 'C'){
+			// l = l + 'G';
+            l = 'G';
+        }
+		if (DNAsequence[i] == 'g'){
+			// l = l + 'C';
+            l = 'C';
+        }
+		if (DNAsequence[i] == 'G'){
+			// l = l + 'C';
+            l = 'C';
+        }
+		if (DNAsequence[i] == 't'){
+			// l = l + 'A';
+            l = 'A';
+        }
+		if (DNAsequence[i] == 'T'){
+			// l = l + 'A';
+            l = 'A';
+        }
 	}
 }
 
@@ -74,12 +91,15 @@ int main()
         {
             int m = lines%2;
             const auto buf_len = strlen(buf.data());
-                
+            const std::string_view suffix("\n");
             if (m == 1){
                 // output_file_stream << reverseComplement(buf) << endl;
                 reverseComplement(buf,buf_len);
             }
-            output_file_stream.write(buf.data(), buf_len);
+            for(int i=0;i<suffix.size();i++){
+                buf[buf_len+i]=suffix[i];
+            }
+            output_file_stream.write(buf.data(), buf_len+suffix.size());
             lines++;
         }
         
