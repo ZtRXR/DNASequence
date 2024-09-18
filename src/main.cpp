@@ -1,4 +1,6 @@
 #include <array>
+#include <cstddef>
+#include <cstdio>
 #include <exception>
 #include <filesystem>
 #include<fstream>
@@ -8,6 +10,9 @@
 #include<algorithm>
 #include<iostream>
 #include"tools.hpp"
+#include <cstring>
+#include <string> 
+
 
 // std::string reversedComplement(std::string DNAsequence);
 
@@ -17,16 +22,17 @@
 
 const size_t MAX_SIZE = 5e4+5;
 
-std::string reverseComplement(std::array<char, MAX_SIZE> DNAsequence)
+void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence,const size_t buf_size) // 注意这里要用'&'取引用，这样不用拷贝，大大减少耗时
 {
 	using namespace std;
 	
-	string l = "";
+	// string l = "";
 	int i;
-	int q = DNAsequence.length();
-	reverse(DNAsequence.begin(), DNAsequence.end()); //将字符串反过来 
+	int q = strlen(DNAsequence.data());
+	reverse(DNAsequence.begin(), DNAsequence.begin()+q); //将字符串反过来 
 	for (i = 0; i < q; i++)
 	{
+        char &l = DNAsequence[i];
 		if (DNAsequence[i] == 'A')
 			l = l + 'T';
 		if (DNAsequence[i] == 'a')
@@ -44,7 +50,6 @@ std::string reverseComplement(std::array<char, MAX_SIZE> DNAsequence)
 		if (DNAsequence[i] == 'T')
 			l = l + 'A';
 	}
-	return l;
 }
 
 int main()
@@ -63,16 +68,18 @@ int main()
         OPEN_IFS_AND_CHECK(input_path, input_file_stream)
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
-        string l = "";
+        // string l = "";
         
-        while (input_file_stream.getline(buf.data(),50000,'\n'))
+        while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
-            if (m == 1)
-            reverseComplement(buf);
-            // output_file_stream << reverseComplement(buf) << endl;
-            // else
-            output_file_stream << buf << endl;
+            const auto buf_len = strlen(buf.data());
+                
+            if (m == 1){
+                // output_file_stream << reverseComplement(buf) << endl;
+                reverseComplement(buf,buf_len);
+            }
+            output_file_stream.write(buf.data(), buf_len);
             lines++;
         }
         
