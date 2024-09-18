@@ -34,32 +34,15 @@ void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里�
         {'C', 'G'}, {'c', 'G'},
         {'G', 'C'}, {'g', 'C'}
     };
-
-    for(std::remove_const_t<decltype(buf_size)> i=0 ; i<=(buf_size/2) ; i++){ //注意边界条件
-        const auto left=i,right=buf_size-i;
-        const auto lit = complement.find(DNAsequence[left]);
-        const auto rit = complement.find(DNAsequence[right]);
-
-        if(rit!=complement.end()&&rit!=complement.end())[[likely]]{ // likely 表示 这个if分支更容易访问到
-            DNAsequence[left] = lit->second;
-            DNAsequence[left] = rit->second;
-            std::swap(DNAsequence[left],DNAsequence[right]);
-        }
-    }
-
-    /*
-    旧算法
+    //旧算法
     std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列 //太耗时，一遍过
     
-    for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { 
+    for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { //std::remove_const_t<decltype(buf_size)>意思是和buf_size相同的类型并去掉const
         auto it = complement.find(DNAsequence[i]);//查表并替换
         if (it != complement.end()) {
             DNAsequence[i] = it->second;
         }
     }
-    
-    */
-    
 }
 
 
