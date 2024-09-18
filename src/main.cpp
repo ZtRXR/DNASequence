@@ -1,9 +1,11 @@
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <cstdio>
 #include <exception>
 #include <filesystem>
 #include<fstream>
+#include <ratio>
 #include <sstream>
 #include <stdexcept>
 #include<algorithm>
@@ -66,11 +68,29 @@ void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence,const size_t buf_
 	}
 }
 
+class Spent{
+    const decltype(std::chrono::system_clock::now()) start;
+    const std::string_view name;
+public:
+    Spent(std::string_view name)noexcept:start(std::chrono::system_clock::now()),name(name){
+        zt::print("[",name,"]"," Start timing","\n");
+    }
+    ~Spent(){
+        const auto end = std::chrono::system_clock::now();
+        const auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (end-start);
+        zt::print("[",name,"]"," Stop timing , using ", dur);
+    }
+};
+
 int main()
 {
 	try{
         // std::ios_base::sync_with_stdio(false); //加了没效果 
         using namespace std;
+
+        Spent all_spent("all spent");
+
+        const auto start = chrono::system_clock::now();
         
         std::array<char,MAX_SIZE> buf;
         int lines = 0;
@@ -83,6 +103,7 @@ int main()
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
         // string l = "";
+        zt::print("Undergoing transformation\n");
         
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
