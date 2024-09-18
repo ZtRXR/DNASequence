@@ -70,30 +70,14 @@ int main()
         Spent all_spent("All spent"); //自动计时器，给主函数计时
         
         std::array<char,MAX_SIZE> buf;
-        // std::string buf;
-        // buf.reserve(MAX_SIZE);//注意提前扩容
 
         unsigned long long lines = 0;
 
         std::filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
-        // ifstream input_file_stream(input_path);
-        // ofstream output_file_stream(output_path);
         OPEN_IFS_AND_CHECK(input_path, input_file_stream) //创建输入和输出流
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
-        // string l = "";
-        // auto now_buf_pos = input_file_stream.tellg();
-        // const auto get_buf_len = [&now_buf_pos,&input_file_stream,&buf](){
-        //     if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{ //注意tellg()也是io操作，耗时
-        //         const auto old_buf_pos = now_buf_pos;
-        //         now_buf_pos = new_buf_pos;
-        //         // auto ret = new_buf_pos - old_buf_pos;
-        //         return (unsigned long long)(new_buf_pos - old_buf_pos);
-        //     }else{
-        //         return strlen(buf.data());
-        //     }
-        // };
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
