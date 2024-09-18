@@ -88,7 +88,7 @@ int main()
         // std::ios_base::sync_with_stdio(false); //加了没效果 
         using namespace std;
 
-        Spent all_spent("all spent");
+        Spent all_spent("All spent");
 
         const auto start = chrono::system_clock::now();
         
