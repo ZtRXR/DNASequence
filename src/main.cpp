@@ -84,7 +84,7 @@ public:
 int main()
 {
 	try{
-        // std::ios_base::sync_with_stdio(false); //加了没效果 
+        std::ios_base::sync_with_stdio(false); //加了没效果 
         using namespace std;
 
         Spent all_spent("All spent");
