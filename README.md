@@ -23,8 +23,30 @@ xmake r
 # 生成 visual studio 文件夹，点进去打开sln文件即可使用visual studio编辑和调试，很方便
 xmake project -k vsxmake
 ```
+
 ## 性能展示
 
+> perf
+
+```
+Samples: 31K of event 'task-clock:ppp', Event count (approx.): 7866750000
+Overhead  Command  Shared Object         Symbol
+  90.39%  test     [unknown]             [k] 0xffffffffa84435e1
+   5.48%  test     test                  [.] reverseComplement(std::array<char, 50005ul>&, unsigned long)
+   1.58%  test     [unknown]             [k] 0xffffffffc06abd30
+   0.59%  test     [unknown]             [k] 0xffffffffa83ab787
+   0.51%  test     [unknown]             [k] 0xffffffffa842aee0
+```
+
+> 800MB fastq DNA 序列处理性能展示
+
+```
+[Timer: All spent] Start timing
+Open input file stream to value [input_file_stream] ok , from ["filteredReads.txt"]
+Open output file stream to value [output_file_stream] ok , from ["reversedSequence.txt"]
+Undergoing transformation
+[Timer: All spent] Stop timing , using 5960ms
+```
 
 ## 关于版权
 
