@@ -1,3 +1,4 @@
+#include <array>
 #include <exception>
 #include <filesystem>
 #include<fstream>
@@ -10,11 +11,13 @@
 
 // std::string reversedComplement(std::string DNAsequence);
 
-#define OPEN_IFS_AND_CHECK(file_path,value_name)std::ifstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open input file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}
+#define OPEN_IFS_AND_CHECK(file_path,value_name)std::ifstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open input file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}else{zt::print("Open input file stream to value ["#value_name"] ok , from [",file_path.filename(),"]\n");}
 
-#define OPEN_OFS_AND_CHECK(file_path,value_name)std::ofstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open output file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}
+#define OPEN_OFS_AND_CHECK(file_path,value_name)std::ofstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open output file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}else{zt::print("Open output file stream to value ["#value_name"] ok , from [",file_path.filename(),"]\n");}
 
-std::string reverseComplement(std::string DNAsequence)
+const size_t MAX_SIZE = 5e4+5;
+
+std::string reverseComplement(std::array<char, MAX_SIZE> DNAsequence)
 {
 	using namespace std;
 	
@@ -50,7 +53,7 @@ int main()
         // std::ios_base::sync_with_stdio(false); //加了没效果 
         using namespace std;
         
-        char buf[50000];
+        std::array<char,MAX_SIZE> buf;
         int lines = 0;
 
         filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
@@ -59,19 +62,16 @@ int main()
         // ofstream output_file_stream(output_path);
         OPEN_IFS_AND_CHECK(input_path, input_file_stream)
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
-        
-        zt::check_fstream_isopen(input_file_stream, output_file_stream);
-
-        zt::print("open file ok!\n");
 
         string l = "";
         
-        while (input_file_stream.getline(buf,50000,'\n'))
+        while (input_file_stream.getline(buf.data(),50000,'\n'))
         {
             int m = lines%2;
             if (m == 1)
-            output_file_stream << reverseComplement(buf) << endl;
-            else
+            reverseComplement(buf);
+            // output_file_stream << reverseComplement(buf) << endl;
+            // else
             output_file_stream << buf << endl;
             lines++;
         }
