@@ -11,6 +11,7 @@
 #include"tools.hpp"
 #include <cstring>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 
 
@@ -33,7 +34,7 @@ void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence, const size_t buf
     
     std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); 
     
-    for (size_t i = 0; i < buf_size; ++i) {
+    for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) {
         auto it = complement.find(DNAsequence[i]);
         if (it != complement.end()) {
             DNAsequence[i] = it->second;
