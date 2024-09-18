@@ -34,8 +34,8 @@ void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里�
         {'C', 'G'}, {'c', 'G'},
         {'G', 'C'}, {'g', 'C'}
     };
-    //旧算法
-    std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列 //太耗时，一遍过
+
+    std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列
     
     for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { //std::remove_const_t<decltype(buf_size)>意思是和buf_size相同的类型并去掉const
         auto it = complement.find(DNAsequence[i]);//查表并替换
