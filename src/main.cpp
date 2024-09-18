@@ -10,6 +10,7 @@
 #include<algorithm>
 #include"tools.hpp" // 自己写的库，在src/tools/tools.hpp当中，注意要使用C++23标准编译
 #include <cstring>
+#include <string>
 #include <string_view>
 #include <type_traits>
 #include <unordered_map>
@@ -77,11 +78,20 @@ int main()
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
         // string l = "";
-        zt::print("Undergoing transformation\n");
+        auto now_buf_pos = input_file_stream.tellg();
+        const auto get_buf_len = [&](){
+            if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{
+                const auto old_buf_pos = now_buf_pos;
+                now_buf_pos = new_buf_pos;
+                return (unsigned long long)(old_buf_pos-new_buf_pos);
+            }else{
+                return strlen(buf.data());
+            }
+        };
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
-            const auto buf_len = strlen(buf.data());
+            const auto buf_len = get_buf_len();
             const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
             if (m == 1){
                 // output_file_stream << reverseComplement(buf) << endl;
