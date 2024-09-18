@@ -69,4 +69,13 @@ namespace zt {
     inline void eprint(){
         return;
     }
+
+    template <class ...Args>
+    inline void check_fstream_isopen(const Args&...args)noexcept(false){
+        bool is_open=true;
+        (((!args.is_open())?is_open=false:true),...);
+        if(is_open==false){
+            throw std::runtime_error("cannot open file stream ");
+        }
+    }
 }

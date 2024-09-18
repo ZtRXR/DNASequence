@@ -1,4 +1,5 @@
 #include <exception>
+#include <filesystem>
 #include<fstream>
 #include <stdexcept>
 #include<string>
@@ -40,15 +41,6 @@ std::string reverseComplement(std::string DNAsequence)
 }
 
 
-template <class ...Args>
-void check_fstream_isopen(const Args&...args)noexcept(false){
-    bool is_open=true;
-    (((!args.is_open())?is_open=false:true),...);
-    if(is_open==false){
-        throw std::runtime_error("cannot open file stream ");
-    }
-}
-
 
 int main()
 {
@@ -59,25 +51,24 @@ int main()
         char buf[50000];
         int lines = 0;
 
+        filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
+        ifstream input_file_stream(input_path);
+        ofstream output_file_stream(output_path);
         
-        ifstream inputFile("filteredReads.txt");
-        ofstream outputFile("reversedSequence.txt");
-        
-        check_fstream_isopen(inputFile,outputFile);
+        zt::check_fstream_isopen(input_file_stream, output_file_stream);
 
-        zt::print("open file ok!");
+        zt::print("open file ok!\n");
 
         string l = "";
         
-        while (inputFile.getline(buf,50000,'\n'))
+        while (input_file_stream.getline(buf,50000,'\n'))
         {
             int m = lines%2;
-            
             if (m == 1)
-            outputFile << reverseComplement(buf) << endl;
+            output_file_stream << reverseComplement(buf) << endl;
             else
-            outputFile << buf << endl;
+            output_file_stream << buf << endl;
             lines++;
         }
         
