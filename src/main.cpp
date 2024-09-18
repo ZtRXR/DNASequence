@@ -15,6 +15,7 @@
 #include <string_view>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 
 
 // 这两个宏用来申请读入和读出流，实现反射并输出日志，获取申请流的变量名字
@@ -33,8 +34,22 @@ void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里�
         {'C', 'G'}, {'c', 'G'},
         {'G', 'C'}, {'g', 'C'}
     };
-    
-    // std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列 //太耗时，一遍过
+
+    for(std::remove_const_t<decltype(buf_size)> i=0 ; i<=(buf_size/2) ; i++){ //注意边界条件
+        const auto left=i,right=buf_size-i;
+        const auto lit = complement.find(DNAsequence[left]);
+        const auto rit = complement.find(DNAsequence[right]);
+
+        if(rit!=complement.end()&&rit!=complement.end())[[likely]]{ // likely 表示 这个if分支更容易访问到
+            DNAsequence[left] = lit->second;
+            DNAsequence[left] = rit->second;
+            std::swap(DNAsequence[left],DNAsequence[right]);
+        }
+    }
+
+    /*
+    旧算法
+    std::reverse(DNAsequence.begin(), DNAsequence.begin() + buf_size); //翻转DNA序列 //太耗时，一遍过
     
     for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { 
         auto it = complement.find(DNAsequence[i]);//查表并替换
@@ -42,6 +57,9 @@ void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里�
             DNAsequence[i] = it->second;
         }
     }
+    
+    */
+    
 }
 
 
