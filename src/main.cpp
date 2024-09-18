@@ -1,14 +1,18 @@
 #include <exception>
 #include <filesystem>
 #include<fstream>
+#include <sstream>
 #include <stdexcept>
 #include<string>
 #include<algorithm>
 #include<iostream>
-#include <type_traits>
 #include"tools.hpp"
 
 // std::string reversedComplement(std::string DNAsequence);
+
+#define OPEN_IFS_AND_CHECK(file_path,value_name)std::ifstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open input file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}
+
+#define OPEN_OFS_AND_CHECK(file_path,value_name)std::ofstream value_name(file_path);if(value_name.is_open()==false){std::stringstream ss;ss<<"cannot open output file stream : "<<file_path.filename();throw std::runtime_error(ss.str());}
 
 std::string reverseComplement(std::string DNAsequence)
 {
@@ -40,12 +44,10 @@ std::string reverseComplement(std::string DNAsequence)
 	return l;
 }
 
-
-
 int main()
 {
 	try{
-        std::ios_base::sync_with_stdio(false); //加了没效果 
+        // std::ios_base::sync_with_stdio(false); //加了没效果 
         using namespace std;
         
         char buf[50000];
@@ -53,8 +55,10 @@ int main()
 
         filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
-        ifstream input_file_stream(input_path);
-        ofstream output_file_stream(output_path);
+        // ifstream input_file_stream(input_path);
+        // ofstream output_file_stream(output_path);
+        OPEN_IFS_AND_CHECK(input_path, input_file_stream)
+        OPEN_OFS_AND_CHECK(output_path, output_file_stream)
         
         zt::check_fstream_isopen(input_file_stream, output_file_stream);
 
