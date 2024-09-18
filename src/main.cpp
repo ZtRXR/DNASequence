@@ -77,7 +77,7 @@ public:
     ~Spent(){
         const auto end = std::chrono::system_clock::now();
         const auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (end-start);
-        zt::print("[",name,"]"," Stop timing , using ", dur);
+        zt::print("[",name,"]"," Stop timing , using ", dur,"\n");
     }
 };
 
