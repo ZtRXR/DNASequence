@@ -1,3 +1,5 @@
 .xmake
 .vscode
 build
+filteredReads.txt
+reversedSequence.txt
