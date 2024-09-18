@@ -47,12 +47,12 @@ class Spent{
     const std::string_view name;
 public:
     Spent(std::string_view name)noexcept:start(std::chrono::system_clock::now()),name(name){
-        zt::print("[",name,"]"," Start timing","\n");
+        zt::print("[Timer: ",name,"]"," Start timing","\n");
     }
     ~Spent(){
         const auto end = std::chrono::system_clock::now();
         const auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (end-start);
-        zt::print("[",name,"]"," Stop timing , using ", dur,"\n");
+        zt::print("[Timer: ",name,"]"," Stop timing , using ", dur,"\n");
     }
 };
 
@@ -76,9 +76,6 @@ int main()
 
         // string l = "";
         zt::print("Undergoing transformation\n");
-
-
-        
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
             int m = lines%2;
