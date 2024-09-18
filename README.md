@@ -15,10 +15,13 @@ DNA是双链的，互为互补链，对DNA样本进行测序时不能确认测�
 [如何安装xmake?链接](https://gitee.com/tboox/xmake#%E5%AE%89%E8%A3%85)
 
 ```bash
-#编译
+#编译 -v 表示 verbose 输出详细编译信息具体说明去上面的xmake链接看看
 xmake -v
 # 运行
 xmake r
+
+# 生成 visual studio 文件夹，点进去打开sln文件即可编辑和调试，很方便
+xmake project -k vsxmake
 ```
 
 ## 关于版权
