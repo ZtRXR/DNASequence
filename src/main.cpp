@@ -35,32 +35,25 @@ void reverseComplement(std::array<char, MAX_SIZE> &DNAsequence,const size_t buf_
 		if (DNAsequence[i] == 'A'){
 			// l = l + 'T';
             l = 'T';
-        }
-		if (DNAsequence[i] == 'a'){
+        }else if (DNAsequence[i] == 'a'){
 			// l = l + 'T';
             l = 'T';
-        }
-		if (DNAsequence[i] == 'c'){
+        }else if (DNAsequence[i] == 'c'){
 			// l = l + 'G';
             l = 'G';
-        }
-		if (DNAsequence[i] == 'C'){
+        }else if (DNAsequence[i] == 'C'){
 			// l = l + 'G';
             l = 'G';
-        }
-		if (DNAsequence[i] == 'g'){
+        }else if(DNAsequence[i] == 'g'){
 			// l = l + 'C';
             l = 'C';
-        }
-		if (DNAsequence[i] == 'G'){
+        }else if (DNAsequence[i] == 'G'){
 			// l = l + 'C';
             l = 'C';
-        }
-		if (DNAsequence[i] == 't'){
+        }else if (DNAsequence[i] == 't'){
 			// l = l + 'A';
             l = 'A';
-        }
-		if (DNAsequence[i] == 'T'){
+        }else if (DNAsequence[i] == 'T'){
 			// l = l + 'A';
             l = 'A';
         }
