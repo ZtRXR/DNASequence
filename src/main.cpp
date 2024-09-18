@@ -84,7 +84,7 @@ int main()
         // string l = "";
         // auto now_buf_pos = input_file_stream.tellg();
         // const auto get_buf_len = [&now_buf_pos,&input_file_stream,&buf](){
-        //     if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{
+        //     if(const auto new_buf_pos = input_file_stream.tellg(); new_buf_pos!=-1)[[likely]]{ //注意tellg()也是io操作，耗时
         //         const auto old_buf_pos = now_buf_pos;
         //         now_buf_pos = new_buf_pos;
         //         // auto ret = new_buf_pos - old_buf_pos;
