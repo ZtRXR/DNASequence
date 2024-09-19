@@ -49,7 +49,7 @@ private:
     const decltype(std::chrono::system_clock::now()) start;
     const std::string_view name;
 public:
-    Spent(std::string_view name)noexcept:start(std::chrono::system_clock::now()),name(name){
+    Spent(const std::string_view name)noexcept:start(std::chrono::system_clock::now()),name(name){
         zt::print("[Timer: ",name,"]"," Start timing","\n");
     }
     ~Spent()noexcept{
