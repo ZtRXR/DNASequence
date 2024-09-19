@@ -1,3 +1,7 @@
+# 注意！
+
+> ***请详细阅读xmake.lua项目配置文件，可能涉及到性能优化和计算精度的问题***
+
 # DNASequence
 
 [提问者问题原文链接](https://www.zhihu.com/question/36143261/answer/3624848144)
