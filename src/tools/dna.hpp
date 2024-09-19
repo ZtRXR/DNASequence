@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <fstream>
+#include <functional>
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
@@ -27,33 +28,6 @@ namespace dna {
     //最大DNA序列长度
     // const size_t MAX_SIZE_PER_DNA = 5e4+5;
     //
-    inline void reverseComplement(char *begin, char *end) 
-    {
-        //注意end是开区间，不能访问end
-        static const std::unordered_map<char, char> complement = { //这里使用查表的方式大大提高CPU速度，因为if分支CPU不容易命中缓存，需要使用查表加速
-            {'A', 'T'}, {'a', 'T'},
-            {'T', 'A'}, {'t', 'A'},
-            {'C', 'G'}, {'c', 'G'},
-            {'G', 'C'}, {'g', 'C'}
-        };
-
-        // std::reverse(begin, end); //翻转DNA序列
-        // 并行翻转序列 //似乎没用
-        #pragma omp parallel for
-        for (ptrdiff_t i = 0; i < (end - begin) / 2; ++i) {
-            std::swap(begin[i], begin[(end - begin) - i - 1]);
-        }
-
-        // 并行查表替换
-        #pragma omp parallel for
-        for (ptrdiff_t i = 0; i < (end - begin); ++i) {
-            static int _ = (zt::print(NAME_VALUE(omp_get_num_threads()),"\n"),0); // 打印线程数量
-            auto it = complement.find(begin[i]);
-            if (it != complement.end()) {
-                begin[i] = it->second;
-            }
-        }
-    }
 
 
     class Spent{ // 使用RAII原理的自动计时器，计算主函数运行时间，析构时自动输出
@@ -72,7 +46,7 @@ namespace dna {
     };
 
     template<size_t BUF_SIZE = (size_t)4 * 1024 * 1024 *1024 , size_t MAX_SIZE_PER_DNA = (size_t)5e4+5>
-    inline void open_file_and_calculate(std::filesystem::path input_path,std::filesystem::path output_path){
+    inline void open_file_and_calculate(std::filesystem::path input_path,std::filesystem::path output_path,void (*reverseComplement)(char *begin, char *end)){
         //std::ios_base::sync_with_stdio(false); //加了没效果 //这里直接关掉就行了，不会影响读入，因为目前是一次性读入。开了反而会让日志输出变成全缓冲，不友好
         // using namespace std; // 别加，刚被坑了
         
