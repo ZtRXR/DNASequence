@@ -26,6 +26,10 @@ xmake project -k vsxmake
 
 ## 性能展示
 
+> 什么环境下性能最好？
+
+> 经过测试，在windows环境下，前端使用mingw，后端使用llvm，也就是clang的时候性能最好
+
 > perf
 
 ```
