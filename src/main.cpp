@@ -62,7 +62,7 @@ public:
 int main()
 {
 	try{
-        std::ios_base::sync_with_stdio(false); //加了没效果 
+        //std::ios_base::sync_with_stdio(false); //加了没效果 //这里直接关掉就行了，不会影响读入，因为目前是一次性读入。开了反而会让日志输出变成全缓冲，不友好
         // using namespace std; // 别加，刚被坑了
 
         Spent all_spent("All spent"); //自动计时器，给主函数计时
