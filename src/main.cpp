@@ -69,7 +69,7 @@ int main()
         
         std::array<char,MAX_SIZE> buf;
 
-        unsigned int lines = 0;
+        bool lines = 0; //使用布尔值加速
 
         std::filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
@@ -78,10 +78,10 @@ int main()
 
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
-            lines%=2; //防止溢出
+            // lines=!lines; //防止溢出
             const auto buf_len = strlen(buf.data());
             const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
-            if (lines == 1){
+            if (lines == true){
                 // output_file_stream << reverseComplement(buf) << endl;
                 reverseComplement(buf,buf_len);
             }
@@ -90,7 +90,7 @@ int main()
                 buf[buf_len+i] = suffix[i];
             }
             output_file_stream.write(buf.data(), buf_len+suffix.size()); // 写入文件
-            lines++;
+            lines=!lines; //bool取反
         }
         
         return 0;
