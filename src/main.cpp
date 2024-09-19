@@ -85,12 +85,11 @@ int main()
         OPEN_IFS_AND_CHECK(input_path, input_file_stream) //创建输入和输出流
         OPEN_OFS_AND_CHECK(output_path, output_file_stream)
 
-        const size_t BUF_SIZE  = (size_t)4 * 1024 * 1024 *1024; //4GB + 区块大小一点冗余 ///////////////////////////设置区块大小
+        const size_t BUF_SIZE  = (size_t)4 * 1024 * 1024 *1024; //4GB///////////////////////////设置区块大小
         // const size_t BUF_SIZE  = (size_t)400*1024*1024; //4GB + 一点冗余 // 测试用
-        zt::print("Chunk size :",BUF_SIZE," bytes\n");
-
         std::vector<char> buf(BUF_SIZE); // 堆上分配可以大一点
         std::array<char, MAX_SIZE_PER_DNA> tmp_buf;//用于处理截断的DNA，直接在栈上申请
+        zt::print("Chunk size :",BUF_SIZE," bytes\n");
         
         Spent all_spent("All spent"); //自动计时器，给主函数计时
         unsigned int chunk_id = 0;
@@ -120,7 +119,7 @@ int main()
             size_t start_pos = 0;
             size_t end_pos = 0;
 
-            if(last_buf_size>0)[[likely]]{
+            if( last_buf_size > 0 ) [[likely]] {
                 Spent recovery_interrupt_spent(zt::fmt("recovery_interrupt [",chunk_id,"]"));
                 if((end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos)[[likely]]{
                     std::memcpy(tmp_buf.data()+last_buf_size,buf.data(),end_pos+1);
@@ -151,6 +150,7 @@ int main()
                 zt::print("Saving interrupt chunk_id[",chunk_id,"]\n");
                 std::memcpy(tmp_buf.data(),buf.data()+start_pos+1,(last_buf_size = buf_len-start_pos-1));
             }
+
             {
                 Spent chunk_write_spent(zt::fmt("write_chunk_id:[",chunk_id,"] , ","[Wrote bytes] ",NAME_VALUE(start_pos)));
                 output_file_stream.write(buf.data(), start_pos);
