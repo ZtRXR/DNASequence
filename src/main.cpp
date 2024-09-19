@@ -55,7 +55,7 @@ public:
     ~Spent()noexcept{
         const auto end = std::chrono::system_clock::now();
         const auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (end-start);
-        zt::print("[Timer: ",name,"]"," Stop timing , using ", dur.count(),"ms\n");
+        zt::print("[Timer: ",name,"]"," Stop timing , used ", dur.count(),"ms\n");
     }
 };
 
