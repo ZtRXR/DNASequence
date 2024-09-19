@@ -95,13 +95,13 @@ int main()
         
         return 0;
     }catch(const std::exception &e){
-        zt::print(
+        zt::eprint(
             "Caught an error because:\n",
             "\t",NAME_VALUE(e.what()),"\n"
             "Closing\n"
         );
     }catch(...){
-        zt::print(
+        zt::eprint(
             "Caught an unknown error :\n",
             "Closing\n"
         );
