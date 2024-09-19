@@ -15,6 +15,12 @@ if is_mode("release")then
     end 
 end
 
+if is_plat("windows")then 
+    add_cxxflags("/openmp")
+elseif is_plat("linux") or is_plat("mingw") or is_plat("clang")then 
+    add_cxflags("-fopenmp")
+end 
+
 add_includedirs("src/tools")
 set_rundir("./")
 

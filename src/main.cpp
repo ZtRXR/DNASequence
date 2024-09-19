@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <string>
 #include <string_view>
-#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
@@ -30,6 +29,7 @@ const size_t MAX_SIZE_PER_DNA = 5e4+5;
 
 void reverseComplement(char *begin, char *end) //注意end是开区间，不能访问end
 {
+    const std::string_view sequence(begin,(size_t)(end-begin)/sizeof(char));
     static const std::unordered_map<char, char> complement = { //这里使用查表的方式大大提高CPU速度，因为if分支CPU不容易命中缓存，需要使用查表加速
         {'A', 'T'}, {'a', 'T'},
         {'T', 'A'}, {'t', 'A'},
@@ -37,12 +37,19 @@ void reverseComplement(char *begin, char *end) //注意end是开区间，不能�
         {'G', 'C'}, {'g', 'C'}
     };
 
-    std::reverse(begin, end); //翻转DNA序列
-    
-    for (std::remove_const_t<decltype(begin)> i = begin; i < end; ++i) { //std::remove_const_t<decltype(buf_size)>意思是和buf_size相同的类型并去掉const
-        auto it = complement.find(*i);//查表并替换
-        if (it != complement.end()) [[likely]] {
-            *i = it->second;
+    // std::reverse(begin, end); //翻转DNA序列
+    // 并行翻转序列 //似乎没用
+    #pragma omp parallel for
+    for (ptrdiff_t i = 0; i < (end - begin) / 2; ++i) {
+        std::swap(begin[i], begin[(end - begin) - i - 1]);
+    }
+
+    // 并行查表替换
+    #pragma omp parallel for
+    for (ptrdiff_t i = 0; i < (end - begin); ++i) {
+        auto it = complement.find(begin[i]);
+        if (it != complement.end()) {
+            begin[i] = it->second;
         }
     }
 }
@@ -139,7 +146,7 @@ int main()
 
                 while((end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos){
                     if(get_lines_add()){
-                        reverseComplement(buf.data()+start_pos, buf.data()+end_pos);
+                        reverseComplement(buf.data()+start_pos, buf.data()+end_pos); //我想要这个函数并行优化
                     }
                     // lines=!lines;
                     start_pos=end_pos+1;
