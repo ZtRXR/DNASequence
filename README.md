@@ -1,6 +1,10 @@
 # 注意！
 
 > ***请详细阅读xmake.lua项目配置文件，可能涉及到性能优化和计算精度的问题***
+>
+> 最好不要使用mingw，使用mingw+clang(就是clang)或者msvc(visual studio)
+>
+> mingw的IO优化不行
 
 # DNASequence
 
