@@ -28,7 +28,7 @@
 //最大DNA序列长度
 const size_t MAX_SIZE_PER_DNA = 5e4+5;
 
-void reverseComplement(char *begin, char *end) //注意这里使用引用DNA sequence，避免拷贝开销
+void reverseComplement(char *begin, char *end) //注意end是开区间，不能访问end
 {
     static const std::unordered_map<char, char> complement = { //这里使用查表的方式大大提高CPU速度，因为if分支CPU不容易命中缓存，需要使用查表加速
         {'A', 'T'}, {'a', 'T'},
@@ -155,19 +155,7 @@ int main()
                 Spent chunk_write_spent(zt::fmt("write_chunk_id:[",chunk_id,"] , ","[Wrote bytes] ",NAME_VALUE(start_pos)));
                 output_file_stream.write(buf.data(), start_pos);
             }
-            // zt::print("[Wrote bytes] ",NAME_VALUE(start_pos),"\n");
-            // const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
-
             
-            // if (lines == true){
-            //     // output_file_stream << reverseComplement(buf) << endl;
-            //     reverseComplement(buf,buf_len);
-            // }
-            // // buf+=suffix;
-            // for(std::remove_const_t<decltype(suffix.size())> i=0;i<suffix.size();i++){
-            //     buf[buf_len+i] = suffix[i];
-            // }
-            // output_file_stream.write(buf.data(), buf_len+suffix.size()); // 写入文件
             
         }
 
