@@ -18,10 +18,12 @@ DNA是双链的，互为互补链，对DNA样本进行测序时不能确认测�
 
 > 输入格式：只是演示样例，不保证其生物上的准确性，默认最大dna序列长度支持5e4，可自行修改代码扩容
 >
-> 程序将会处理类似以下若干条dna序列
+> 程序将会从项目的根目录中打开filteredReads.txt并处理类似以下若干条dna序列
 
 ```
 @SRR13280199.1 1 length=32
+ACGTACACATTGCTGTCTGCTGAACCACCTAG
+@SRR13280199.1 2 length=32
 ACGTACACATTGCTGTCTGCTGAACCACCTAG
 ```
 
