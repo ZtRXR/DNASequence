@@ -71,7 +71,7 @@ int main()
         
         std::array<char,MAX_SIZE> buf;
 
-        unsigned long long lines = 0;
+        unsigned int lines = 0;
 
         std::filesystem::path input_path("filteredReads.txt"),output_path("reversedSequence.txt");
         
@@ -80,7 +80,7 @@ int main()
 
         while (input_file_stream.getline(buf.data(),MAX_SIZE,'\n'))
         {
-            int m = lines%2;
+            int m = lines%=2; //防止溢出
             const auto buf_len = strlen(buf.data());
             const std::string_view suffix("\n"); //设置一个每个DNA序列结尾的字符，这里是以\n换行来结尾
             if (m == 1){
@@ -104,7 +104,7 @@ int main()
         );
     }catch(...){
         zt::print(
-            "Caught an unknown error because:\n",
+            "Caught an unknown error :\n",
             "Closing\n"
         );
     }
