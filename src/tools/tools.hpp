@@ -3,6 +3,8 @@
 #include <iostream>
 #include <ostream>
 #include <sstream>
+#include <string>
+#include <utility>
 
 #define NAME_VALUE(v)#v," : ",(v)
 
@@ -70,6 +72,14 @@ namespace zt {
         return;
     }
 
+    template<class ...Args>
+    inline std::string fmt(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args));
+        return oss.str();
+    }
+
+    #define THROW_RT_ERROR(why)throw std::runtime_error(zt::fmt("[FILE:",__FILE__,"] [LINE:",__LINE__,"] why:",why));
     // template <class ...Args>
     // inline void check_fstream_isopen(const Args&...args)noexcept(false){
     //     bool is_open=true;
