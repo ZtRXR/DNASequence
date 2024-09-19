@@ -37,7 +37,7 @@ void reverseComplement(auto &DNAsequence, const size_t buf_size) //注意这里�
     
     for (std::remove_const_t<decltype(buf_size)> i = 0; i < buf_size; ++i) { //std::remove_const_t<decltype(buf_size)>意思是和buf_size相同的类型并去掉const
         auto it = complement.find(DNAsequence[i]);//查表并替换
-        if (it != complement.end()) {
+        if (it != complement.end()) [[likely]] {
             DNAsequence[i] = it->second;
         }
     }
