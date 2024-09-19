@@ -16,6 +16,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <omp.h>
 
 
 // 这两个宏用来申请读入和读出流，实现反射并输出日志，获取申请流的变量名字
@@ -47,6 +48,7 @@ void reverseComplement(char *begin, char *end) //注意end是开区间，不能�
     // 并行查表替换
     #pragma omp parallel for
     for (ptrdiff_t i = 0; i < (end - begin); ++i) {
+        static int _ = (zt::print(NAME_VALUE(omp_get_num_threads()),"\n"),0); // 打印线程数量
         auto it = complement.find(begin[i]);
         if (it != complement.end()) {
             begin[i] = it->second;
@@ -79,7 +81,6 @@ int main()
         // std::array<char,MAX_SIZE> buf;
 
         bool lines = 0; //使用布尔值加速
-
         const auto get_lines_add = [&lines]() {
             bool old_value = lines;  // 保存旧值
             lines = !lines;          // 改变布尔值
