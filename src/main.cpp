@@ -87,6 +87,7 @@ int main()
 
         const size_t BUF_SIZE  = (size_t)4 * 1024 * 1024 *1024; //4GB + 区块大小一点冗余 ///////////////////////////设置区块大小
         // const size_t BUF_SIZE  = (size_t)400*1024*1024; //4GB + 一点冗余 // 测试用
+        zt::print("Chunk size :",BUF_SIZE," bytes\n");
 
         std::vector<char> buf(BUF_SIZE); // 堆上分配可以大一点
         std::array<char, MAX_SIZE_PER_DNA> tmp_buf;//用于处理截断的DNA，直接在栈上申请
