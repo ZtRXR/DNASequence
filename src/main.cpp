@@ -1,5 +1,6 @@
 #include "dna.hpp"
 
+//注意，这个函数会被并行执行，请只访问begin<=i<end之间的内容，以免出现数据竞争导致程序异常
 void reverseComplement(char *begin, char *end) 
 {
     //注意end是开区间，不能访问end
