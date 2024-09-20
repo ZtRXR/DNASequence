@@ -69,23 +69,44 @@ xmake project -k vsxmake
 > perf
 
 ```
-Samples: 31K of event 'task-clock:ppp', Event count (approx.): 7866750000
-Overhead  Command  Shared Object         Symbol
-  90.39%  test     [unknown]             [k] 0xffffffffa84435e1
-   5.48%  test     test                  [.] reverseComplement(std::array<char, 50005ul>&, unsigned long)
-   1.58%  test     [unknown]             [k] 0xffffffffc06abd30
-   0.59%  test     [unknown]             [k] 0xffffffffa83ab787
-   0.51%  test     [unknown]             [k] 0xffffffffa842aee0
+  31.88%  test     test                  [.] reverseComplement(char*, char*) [clone ._omp_fn.1]
+  10.27%  test     [unknown]             [k] 0xffffffffc06abd30
+   7.32%  test     libgomp.so.1.0.0      [.] 0x0000000000024c6a
+   4.39%  test     [unknown]             [k] 0xffffffffa84435e1
+   3.32%  test     libgomp.so.1.0.0      [.] 0x0000000000024ab2
+   3.20%  test     [unknown]             [k] 0xffffffffa8443ee5
+   2.35%  test     [unknown]             [k] 0xffffffffa72d138b
+   2.30%  test     [unknown]             [k] 0xffffffffa7309ed4
+   1.98%  test     [unknown]             [k] 0xffffffffa7a5ba37
+   1.74%  test     [unknown]             [k] 0xffffffffa760ecee
+   1.63%  test     test                  [.] reverseComplement(char*, char*) [clone ._omp_fn.0]
+   1.48%  test     [unknown]             [k] 0xffffffffa83ab787
+   1.32%  test     [unknown]             [k] 0xffffffffa842aee0
+   1.31%  test     [unknown]             [k] 0xffffffffa766d76a
+   0.83%  test     [unknown]             [k] 0xffffffffa7a5ad88
+   0.80%  test     libc.so.6             [.] __memset_evex_unaligned_erms
+   0.55%  test     [unknown]             [k] 0xffffffffa766d747
+   0.47%  test     [unknown]             [k] 0xffffffffa76c08f8
 ```
 
 > 800MB fastq DNA 序列处理性能展示
 
 ```
-[Timer: All spent] Start timing
 Open input file stream to value [input_file_stream] ok , from ["filteredReads.txt"]
 Open output file stream to value [output_file_stream] ok , from ["reversedSequence.txt"]
-Undergoing transformation
-[Timer: All spent] Stop timing , using 5960ms
+Chunk size :4294967296 bytes
+[Timer: All spent] Start timing
+[Timer: chunk_id:[1]] Start timing
+[Timer: read_chunk_id:[1]] Start timing
+[Timer: read_chunk_id:[1]] Stop timing , used 1102ms
+buf_len : 897963094
+[Timer: calculate_chunk_id:[1]] Start timing
+omp_get_num_threads() : 12
+[Timer: calculate_chunk_id:[1]] Stop timing , used 463ms
+[Timer: write_chunk_id:[1] , [Wrote bytes] start_pos : 897963094] Start timing
+[Timer: write_chunk_id:[1] , [Wrote bytes] start_pos : 897963094] Stop timing , used 1287ms
+[Timer: chunk_id:[1]] Stop timing , used 2854ms
+[Timer: All spent] Stop timing , used 2855ms
 ```
 
 ## 关于版权
