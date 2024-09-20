@@ -11,7 +11,7 @@ void reverseComplement(char *begin, char *end)
     };
 
     std::reverse(begin, end); //翻转DNA序列
-    
+
     for (ptrdiff_t i = 0; i < (end - begin); ++i) {
         static int _ = (zt::print(NAME_VALUE(omp_get_num_threads()),"\n"),0); // 打印线程数量
         auto it = complement.find(begin[i]);
@@ -28,7 +28,7 @@ int main()
 
         //参数列表 <文件分块内存大小，单个DNA序列最长大小>("输入文件名","输出文件名",序列处理函数);
         //这个函数在src/tools/dna里面
-        dna::open_file_and_calculate<(size_t)4 * 1024 * 1024 *1024 , (size_t)5e4+5>("filteredReads.txt", "reversedSequence.txt",reverseComplement);
+        dna::open_file_and_calculate<(size_t)100 * 1024 *1024 , (size_t)5e4+5>("filteredReads.txt", "reversedSequence.txt",reverseComplement);
 
     }catch(const std::exception &e){
         zt::eprint(
