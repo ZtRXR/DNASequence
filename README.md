@@ -75,24 +75,29 @@ xmake project -k vsxmake
 > perf
 
 ```
-  31.88%  test     test                  [.] reverseComplement(char*, char*) [clone ._omp_fn.1]
-  10.27%  test     [unknown]             [k] 0xffffffffc06abd30
-   7.32%  test     libgomp.so.1.0.0      [.] 0x0000000000024c6a
-   4.39%  test     [unknown]             [k] 0xffffffffa84435e1
-   3.32%  test     libgomp.so.1.0.0      [.] 0x0000000000024ab2
-   3.20%  test     [unknown]             [k] 0xffffffffa8443ee5
-   2.35%  test     [unknown]             [k] 0xffffffffa72d138b
-   2.30%  test     [unknown]             [k] 0xffffffffa7309ed4
-   1.98%  test     [unknown]             [k] 0xffffffffa7a5ba37
-   1.74%  test     [unknown]             [k] 0xffffffffa760ecee
-   1.63%  test     test                  [.] reverseComplement(char*, char*) [clone ._omp_fn.0]
-   1.48%  test     [unknown]             [k] 0xffffffffa83ab787
-   1.32%  test     [unknown]             [k] 0xffffffffa842aee0
-   1.31%  test     [unknown]             [k] 0xffffffffa766d76a
-   0.83%  test     [unknown]             [k] 0xffffffffa7a5ad88
-   0.80%  test     libc.so.6             [.] __memset_evex_unaligned_erms
-   0.55%  test     [unknown]             [k] 0xffffffffa766d747
-   0.47%  test     [unknown]             [k] 0xffffffffa76c08f8
+Samples: 6K of event 'task-clock:ppp', Event count (approx.): 1541250000
+Overhead  Command  Shared Object         Symbol
+  73.72%  test     test                  [.] reverseComplement(char*, char*)               ◆
+   5.47%  test     [unknown]             [k] 0xffffffffa842aee0                            ▒
+   3.02%  test     [unknown]             [k] 0xffffffffc06abd30                            ▒
+   2.12%  test     [unknown]             [k] 0xffffffffa7a5ba37                            ▒
+   1.98%  test     [unknown]             [k] 0xffffffffa84435e1                            ▒
+   1.15%  test     [unknown]             [k] 0xffffffffa8443ee5                            ▒
+   0.99%  test     [unknown]             [k] 0xffffffffa760ecee                            ▒
+   0.92%  test     [unknown]             [k] 0xffffffffa83ab787                            ▒
+   0.86%  test     [unknown]             [k] 0xffffffffa72d138b                            ▒
+   0.76%  test     [unknown]             [k] 0xffffffffa7309ed4                            ▒
+   0.57%  test     libc.so.6             [.] __memchr_evex                                 ▒
+   0.44%  test     [unknown]             [k] 0xffffffffc0671725                            ▒
+   0.26%  test     libc.so.6             [.] __memset_evex_unaligned_erms                  ▒
+   0.24%  test     [unknown]             [k] 0xffffffffa76c08f8                            ▒
+   0.23%  test     [unknown]             [k] 0xffffffffa7a5ad88                            ▒
+   0.21%  test     libgomp.so.1.0.0      [.] 0x0000000000024ab2                            ▒
+   0.21%  test     [unknown]             [k] 0xffffffffa8443d57                            ▒
+   0.18%  test     [unknown]             [k] 0xffffffffa739e005                            ▒
+   0.13%  test     [unknown]             [k] 0xffffffffa75b7cdb                            ▒
+   0.13%  test     [unknown]             [k] 0xffffffffc067013b                            ▒
+   0.11%  test     [unknown]             [k] 0xffffffffa76168b4                            ▒
 ```
 
 > 800MB fastq DNA 序列处理性能展示
