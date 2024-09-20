@@ -46,7 +46,7 @@ namespace dna {
     };
 
     template<size_t BUF_SIZE = (size_t)4 * 1024 * 1024 *1024 , size_t MAX_SIZE_PER_DNA = (size_t)5e4+5>
-    inline void open_file_and_calculate(std::filesystem::path input_path,std::filesystem::path output_path,void (*reverseComplement)(char *begin, char *end)){
+    inline void open_file_and_calculate(std::filesystem::path input_path,std::filesystem::path output_path, std::function<void(char *begin, char *end)> reverseComplement){
         //std::ios_base::sync_with_stdio(false); //加了没效果 //这里直接关掉就行了，不会影响读入，因为目前是一次性读入。开了反而会让日志输出变成全缓冲，不友好
         // using namespace std; // 别加，刚被坑了
         
