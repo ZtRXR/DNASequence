@@ -74,8 +74,10 @@ namespace dna {
         Spent all_spent("All spent"); //自动计时器，给主函数计时
         unsigned int chunk_id = 0;
         size_t last_buf_size = 0;
+        
         while (input_file_stream.eof()==false)
         {
+            size_t recovered_size = 0;
             Spent chunk_spent(zt::fmt("chunk_id:[",++chunk_id,"]"));
             {
                 Spent chunk_read_spent(zt::fmt("read_chunk_id:[",chunk_id,"]"));
@@ -108,8 +110,10 @@ namespace dna {
                     }
                     // lines=!lines;
                     output_file_stream.write(tmp_buf.data(), last_buf_size+end_pos+1);
+                    start_pos=end_pos+1;
+                    recovered_size=end_pos+1;
                 }else{
-                    THROW_RT_ERROR("DNA incompleteness")
+                    THROW_RT_ERROR("DNA incompleteness, chunk Size is too small !!")
                 }
                 last_buf_size=0;
             }
@@ -152,12 +156,12 @@ namespace dna {
             
             if(start_pos!=buf_len){
                 zt::print("Saving interrupt chunk_id[",chunk_id,"]\n");
-                std::memcpy(tmp_buf.data(),buf.data()+start_pos+1,(last_buf_size = buf_len-start_pos-1));
+                std::memcpy(tmp_buf.data(),buf.data()+start_pos,(last_buf_size = buf_len-start_pos));
             }
 
             {
                 Spent chunk_write_spent(zt::fmt("write_chunk_id:[",chunk_id,"] , ","[Wrote bytes] ",NAME_VALUE(start_pos)));
-                output_file_stream.write(buf.data(), start_pos);
+                output_file_stream.write(buf.data()+recovered_size, start_pos-recovered_size);
             }
             
             
