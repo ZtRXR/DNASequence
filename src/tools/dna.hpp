@@ -103,13 +103,15 @@ namespace dna {
 
             if( last_buf_size > 0 ) [[likely]] {
                 Spent recovery_interrupt_spent(zt::fmt("recovery_interrupt [",chunk_id,"]"));
-                if((end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos)[[likely]]{
-                    std::memcpy(tmp_buf.data()+last_buf_size,buf.data(),end_pos+1);
+                if( (end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos ) [[likely]] {
+
+                    std::memcpy(tmp_buf.data()+last_buf_size,buf.data(),end_pos+1); //+1加的是空格位置
+
                     if(get_lines_add()){
-                        reverseComplement(tmp_buf.data(), tmp_buf.data()+last_buf_size+end_pos);
+                        reverseComplement(tmp_buf.data(), tmp_buf.data()+last_buf_size+end_pos); //注意传入函数时不要传入空格
                     }
                     // lines=!lines;
-                    output_file_stream.write(tmp_buf.data(), last_buf_size+end_pos+1);
+                    output_file_stream.write(tmp_buf.data(), last_buf_size+end_pos+1); //+1加的是空格位置
                     start_pos=end_pos+1;
                     recovered_size=end_pos+1;
                 }else{
@@ -140,8 +142,6 @@ namespace dna {
 
                         start_pos = end_pos + 1;
                     }
-                    // // 等待所有任务完成
-                    // #pragma omp taskwait
                 }
 
 
@@ -156,7 +156,7 @@ namespace dna {
             
             if(start_pos!=buf_len){
                 zt::print("Saving interrupt chunk_id[",chunk_id,"]\n");
-                std::memcpy(tmp_buf.data(),buf.data()+start_pos,(last_buf_size = buf_len-start_pos));
+                std::memcpy(tmp_buf.data(),buf.data()+start_pos,(last_buf_size = buf_len-start_pos)); //这里边界处理脑子要炸了
             }
 
             {
