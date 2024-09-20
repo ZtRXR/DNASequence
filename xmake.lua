@@ -18,7 +18,8 @@ end
 if is_plat("windows")then 
     add_cxxflags("/openmp")
 elseif is_plat("linux") or is_plat("mingw") or is_plat("clang")then 
-    add_cxflags("-fopenmp")
+    add_cxxflags("-fopenmp")
+    add_ldflags("-fopenmp")
 end 
 
 add_includedirs("src/tools")
