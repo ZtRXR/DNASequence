@@ -1,9 +1,13 @@
 # 注意！
+
 ## 项目前置
->本项目使用了OpenMP进行并行化加速，默认开启，OpenMP在C++编译器中默认都装了的，请使用较新的编译器
->在win平台上似乎无法使用mingw对OpenMP加速，但是Visual Studio（MSVC） 和 Clang 在win平台上都是可以编译的
->不要使用Mingw编译，win上可以使用Clang,VS(MSVC)，linux上使用gcc(g++)即可
-## 块内存大小
+
+> 本项目使用了OpenMP进行并行化加速，默认开启，OpenMP在C++编译器中默认都装了的，请使用较新的编译器
+> 在win平台上似乎无法使用mingw对OpenMP加速，但是Visual Studio（MSVC） 和 Clang 在win平台上都是可以编译的
+> 不要使用Mingw编译，win上可以使用Clang,VS(MSVC)，linux上使用gcc(g++)即可
+
+## 块内存大小默认4G，如有更多请更改
+
 ```cpp
 //原理是这里定义处理函数，将函数传入dna::open_file_and_calculate，在open_file_and_calculate中会调用传入的函数
 //参数列表 <文件分块内存大小，单个DNA序列最长大小>("输入文件名","输出文件名",序列处理函数);
@@ -12,7 +16,7 @@ dna::open_file_and_calculate<(size_t)4 * 1024 * 1024 *1024 , (size_t)5e4+5>("fil
 ```
 
 ## ***请详细阅读xmake.lua项目配置文件，可能涉及到性能优化和计算精度的问题***
->
+
 > 最好不要使用mingw，使用mingw+clang(就是clang)或者msvc(visual studio)
 >
 > mingw的IO优化不行
