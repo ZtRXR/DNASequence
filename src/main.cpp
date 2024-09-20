@@ -26,7 +26,6 @@ int main()
 {
 	try{
         //原理是这里定义处理函数，将函数传入dna::open_file_and_calculate，在open_file_and_calculate中会调用传入的函数
-
         //参数列表 <文件分块内存大小，单个DNA序列最长大小>("输入文件名","输出文件名",序列处理函数);
         //这个函数在src/tools/dna里面
         dna::open_file_and_calculate<(size_t)4*1024 * 1024 *1024 , (size_t)5e4+5>("filteredReads.txt", "reversedSequence.txt",reverseComplement);
