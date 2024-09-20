@@ -100,15 +100,15 @@ Chunk size :4294967296 bytes
 [Timer: All spent] Start timing
 [Timer: chunk_id:[1]] Start timing
 [Timer: read_chunk_id:[1]] Start timing
-[Timer: read_chunk_id:[1]] Stop timing , used 1102ms
+[Timer: read_chunk_id:[1]] Stop timing , used 1031ms
 buf_len : 897963094
 [Timer: calculate_chunk_id:[1]] Start timing
 omp_get_num_threads() : 12
-[Timer: calculate_chunk_id:[1]] Stop timing , used 463ms
+[Timer: calculate_chunk_id:[1]] Stop timing , used 277ms
 [Timer: write_chunk_id:[1] , [Wrote bytes] start_pos : 897963094] Start timing
-[Timer: write_chunk_id:[1] , [Wrote bytes] start_pos : 897963094] Stop timing , used 1287ms
-[Timer: chunk_id:[1]] Stop timing , used 2854ms
-[Timer: All spent] Stop timing , used 2855ms
+[Timer: write_chunk_id:[1] , [Wrote bytes] start_pos : 897963094] Stop timing , used 1169ms
+[Timer: chunk_id:[1]] Stop timing , used 2479ms
+[Timer: All spent] Stop timing , used 2479ms
 ```
 
 ## 关于版权
