@@ -3,6 +3,8 @@
 ## 项目前置
 
 > 如果你想在没有安装Visual Studio的电脑上使用编译后的代码请前往下面的网址安装VCRuntime
+>
+> 需要的windows dll在dll文件夹中，可以试试
 
 [https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022](https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022)
 
