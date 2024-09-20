@@ -2,6 +2,10 @@
 
 ## 项目前置
 
+> 如果你想在没有安装Visual Studio的电脑上使用编译后的代码请前往下面的网址安装VCRuntime
+
+[https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022](https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022)
+
 > 本项目使用了OpenMP进行并行化加速，默认开启，OpenMP在C++编译器中默认都装了的，请使用较新的编译器
 > 在win平台上似乎无法使用mingw对OpenMP加速，但是Visual Studio（MSVC） 和 Clang 在win平台上都是可以编译的
 > 不要使用Mingw编译，win上可以使用Clang,VS(MSVC)，linux上使用gcc(g++)即可
