@@ -117,13 +117,37 @@ namespace dna {
             {
                 Spent calculate_spent(zt::fmt("calculate_chunk_id:[",chunk_id,"]"));
 
-                while((end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos){
-                    if(get_lines_add()){
-                        reverseComplement(buf.data()+start_pos, buf.data()+end_pos); //我想要这个函数并行优化
+                #pragma omp parallel
+                #pragma omp single
+                {
+                    while ((end_pos = buf_str_v.find('\n', start_pos)) != std::string_view::npos) {
+                        char *start = buf.data() + start_pos;
+                        char *end = buf.data() + end_pos;
+
+                        // 确保每个任务只操作属于它的独立数据
+                        if (get_lines_add()) {
+                            // 为每一块数据创建一个任务
+                            #pragma omp task firstprivate(start, end)
+                            {
+                                reverseComplement(start, end); // 任务内处理反转互补
+                            }
+                        }
+
+                        start_pos = end_pos + 1;
                     }
-                    // lines=!lines;
-                    start_pos=end_pos+1;
+
+                    // 等待所有任务完成
+                    #pragma omp taskwait
                 }
+
+
+                // while((end_pos=buf_str_v.find('\n',start_pos)) != std::string_view::npos){
+                //     if(get_lines_add()){
+                //         reverseComplement(buf.data()+start_pos, buf.data()+end_pos); //我想要这个函数并行优化
+                //     }
+                //     // lines=!lines;
+                //     start_pos=end_pos+1;
+                // }
             }
             
             if(start_pos!=buf_len){

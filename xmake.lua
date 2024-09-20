@@ -15,7 +15,7 @@ if is_mode("release")then
 end
 
 if is_plat("windows")then 
-    add_cxxflags("/openmp")
+    add_cxxflags("/openmp:llvm")
 elseif is_plat("linux") or is_plat("mingw") or is_plat("clang")then 
     add_cxxflags("-fopenmp")
     add_ldflags("-fopenmp")

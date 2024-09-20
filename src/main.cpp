@@ -10,15 +10,8 @@ void reverseComplement(char *begin, char *end)
         {'G', 'C'}, {'g', 'C'}
     };
 
-    // std::reverse(begin, end); //翻转DNA序列
-    // 并行翻转序列 //似乎没用
-    #pragma omp parallel for
-    for (ptrdiff_t i = 0; i < (end - begin) / 2; ++i) {
-        std::swap(begin[i], begin[(end - begin) - i - 1]);
-    }
-
-    // 并行查表替换
-    #pragma omp parallel for
+    std::reverse(begin, end); //翻转DNA序列
+    
     for (ptrdiff_t i = 0; i < (end - begin); ++i) {
         static int _ = (zt::print(NAME_VALUE(omp_get_num_threads()),"\n"),0); // 打印线程数量
         auto it = complement.find(begin[i]);
